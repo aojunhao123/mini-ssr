@@ -19,10 +19,11 @@ export async function createServer() {
     );
 
     app.use("*", async (req, res) => {
+        // 渲染首屏
         const url = "/";
 
         const template = fs.readFileSync(resolve("dist/client/index.html"), "utf-8");
-        const render = (await import("./dist/server/entry-server.mjs")).SSRRender;
+        const render = (await import("./dist/server/entry-server.js")).SSRRender;
 
         const appHtml = render(url); //Rendering component without any client side logic de-hydrated like a dry sponge
         const html = template.replace(`<!--app-html-->`, appHtml); //Replacing placeholder with SSR rendered components
